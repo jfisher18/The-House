@@ -19,6 +19,9 @@ class Cloud {
     }
   }
   void drawCloud() {
+    if(raining){
+      greyscaleValue = 100;
+    }
     fill(greyscaleValue, 80);
     ellipseMode(CENTER);
     for (int i = 0; i < numberOfCircles; i++) {

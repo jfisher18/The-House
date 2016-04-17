@@ -1,6 +1,8 @@
 /*
 House Animation
  
+ By Jake Fisher
+ 
  Features and notes:
  Completely adjustable day length!
  -You can change the constant dayLength on line 21, which is in frames (program runs at 60fps by default)
@@ -16,7 +18,7 @@ House Animation
  */
 
 int time;
-int dayLength = 200;
+int dayLength = 240;
 int sunX, sunY, sunTime;
 int moonX, moonY, moonTime;
 float skyBrightness;
@@ -35,11 +37,18 @@ float startAngle, stopAngle, centralAngle, inscribedAngle;
 PImage picture;
 float windForce = random(-1, 1);
 int adder;
+ArrayList<WeatherParticle> snow;
+ArrayList<WeatherParticle> rain;
+boolean snowing;
+boolean raining;
+int rainFrames = 0;
 
 
 void setup() {
   size(960, 540);
   stars = new ArrayList<Star>();
+  snow = new ArrayList<WeatherParticle>();
+  rain = new ArrayList<WeatherParticle>();
   currentClouds = new ArrayList<Cloud>();
   shootingStarsTonight = new ArrayList<ShootingStar>();
   currentSmoke = new ArrayList<Smoke>();
@@ -248,6 +257,46 @@ void draw() {
     time++;
   } else {
     time = 0;
+  }
+  //weather
+  for (WeatherParticle flake : snow) {
+    flake.update();
+  }
+  for (int i=0; i< snow.size (); i++) {
+    if (snow.get(i).offScreen()) {
+      snow.remove(i);
+      i--;
+    }
+  }
+  if (rainFrames==0) {
+    for (WeatherParticle drop : rain) {
+      drop.update();
+    }
+  }
+  for (int i=0; i< rain.size (); i++) {
+    if (rain.get(i).offScreen()) {
+      rain.remove(i);
+      i--;
+    }
+  }
+  snowing = snow.size()>0;
+  raining = rain.size()>0;
+  if (!snowing&&!raining) {
+    if (random(500*(dayLength/240.0))<=1) {
+      for (int i = 0; i <500; i++) {
+        snow.add(new WeatherParticle("snow"));
+      }
+    }
+    if (random(500*(dayLength/240.0))<=1) {
+      for (int i = 0; i <700; i++) {
+        rain.add(new WeatherParticle("rain"));
+        rainFrames = 5;
+      }
+    }
+  }
+  if (rainFrames>0) {
+    background(255);
+    rainFrames--;
   }
 }
 
