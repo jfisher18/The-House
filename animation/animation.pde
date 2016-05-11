@@ -1,8 +1,8 @@
 /*
 House Animation
- 
+
  By Jake Fisher
- 
+
  Features and notes:
  Completely adjustable day length!
  -You can change the constant dayLength on line 21, which is in frames (program runs at 60fps by default)
@@ -14,7 +14,7 @@ House Animation
  -Odds of happening are one in five each night
  -If you want to see it every night, uncomment line 75
  Moon Phases
- -Takes 16 nights for a full cycle 
+ -Takes 16 nights for a full cycle
  */
 
 int time;
@@ -189,7 +189,7 @@ void draw() {
     for (int i = 535; i < 555; i++) {
       currentSmoke.add(new Smoke(i, 79));
     }
-  }        
+  }
   for (Smoke displaySmoke : currentSmoke) {
     displaySmoke.drawSmoke();
   }
